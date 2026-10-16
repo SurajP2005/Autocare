@@ -128,9 +128,15 @@ function isLoggedIn(req, res, next) {
 // Home Page
 // ================================
 
+app.get("/", (req, res) => {
+    res.redirect("/autocare");
+});
+
 app.get("/autocare", (req, res) => {
     res.render("home");
 });
+
+
 
 
 // DASHBOARD
@@ -1473,9 +1479,3 @@ app.post("/maintenance/:maintenanceId/complete", isLoggedIn, async (req, res) =>
 // Start Server
 // ================================
 
-
-const PORT = process.env.PORT || 8080;
-
-app.listen(PORT, () => {
-    console.log(`Autocare server is running on port ${PORT}`);
-});
