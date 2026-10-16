@@ -1473,6 +1473,9 @@ app.post("/maintenance/:maintenanceId/complete", isLoggedIn, async (req, res) =>
 // Start Server
 // ================================
 
-app.listen(8080, () => {
-    console.log("Autocare server is running on port 8080");
+
+const PORT = process.env.PORT || 8080;
+
+app.listen(PORT, () => {
+    console.log(`Autocare server is running on port ${PORT}`);
 });
