@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Vehicle Document | AutoCare</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body class="document-form-page">
+
+    <%- include("partials/navbar") %>
+
+    <div class="container py-5">
+
+        <div class="document-form-wrapper mx-auto">
+
+            <!-- Header -->
+            <div class="document-form-header">
+                <div class="document-icon">
+                    <i class="bi bi-file-earmark-check-fill"></i>
+                </div>
+
+                <h1>Add Vehicle Document</h1>
+
+                <p>
+                    Keep your insurance, registration, PUC, and service documents organized.
+                </p>
+            </div>
+
+            <!-- Form Card -->
+            <div class="document-form-card">
+
+                <form
+                    action="/documents"
+                    method="POST"
+                    enctype="multipart/form-data"
+                >
+
+                    <div class="row g-4">
+
+                        <!-- Vehicle -->
+                        <div class="col-md-6">
+                            <label for="vehicleId" class="form-label">
+                                <i class="bi bi-car-front me-1"></i>
+                                Select Vehicle
+                            </label>
+
+                            <select
+                                name="vehicleId"
+                                id="vehicleId"
+                                class="form-select"
+                                required
+                            >
+                                <option value="">Choose your vehicle</option>
+
+                                <% vehicles.forEach(vehicle => { %>
+                                    <option value="<%= vehicle._id %>">
+                                        <%= vehicle.brand %> <%= vehicle.model %> (<%= vehicle.year %>)
+                                    </option>
+                                <% }) %>
+                            </select>
+                        </div>
+
+                        <!-- Document Title -->
+                        <div class="col-md-6">
+                            <label for="title" class="form-label">
+                                <i class="bi bi-card-heading me-1"></i>
+                                Document Title
+                            </label>
+
+                            <input
+                                type="text"
+                                name="title"
+                                id="title"
+                                class="form-control"
+                                placeholder="e.g. Honda City Insurance"
+                                required
+                            >
+                        </div>
+
+                        <!-- Document Type -->
+                        <div class="col-md-6">
+                            <label for="documentType" class="form-label">
+                                <i class="bi bi-tags me-1"></i>
+                                Document Type
+                            </label>
+
+                            <select
+                                name="documentType"
+                                id="documentType"
+                                class="form-select"
+                                required
+                            >
+                                <option value="">Select document type</option>
+                                <option value="Insurance">Insurance</option>
+                                <option value="Registration Certificate">
+                                    Registration Certificate (RC)
+                                </option>
+                                <option value="PUC">Pollution Under Control (PUC)</option>
+                                <option value="Service Invoice">Service Invoice</option>
+                                <option value="Warranty">Warranty</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+
+                        <!-- Upload -->
+                        <div class="col-12">
+                            <label for="documentFile" class="form-label">
+                                <i class="bi bi-cloud-arrow-up me-1"></i>
+                                Upload Document
+                            </label>
+
+                            <input
+                                type="file"
+                                id="documentFile"
+                                name="documentFile"
+                                class="form-control document-file-input"
+                                accept=".pdf,.jpg,.jpeg,.png"
+                            >
+
+                            <div class="form-text">
+                                Supported formats: PDF, JPG, JPEG, PNG.
+                            </div>
+                        </div>
+
+                        <!-- Issue Date -->
+                        <div class="col-md-6">
+                            <label for="issueDate" class="form-label">
+                                <i class="bi bi-calendar-check me-1"></i>
+                                Issue Date
+                                <span class="text-muted">(Optional)</span>
+                            </label>
+
+                            <input
+                                type="date"
+                                name="issueDate"
+                                id="issueDate"
+                                class="form-control"
+                            >
+                        </div>
+
+                        <!-- Expiry Date -->
+                        <div class="col-md-6">
+                            <label for="expiryDate" class="form-label">
+                                <i class="bi bi-calendar-x me-1"></i>
+                                Expiry Date
+                                <span class="text-muted">(Optional)</span>
+                            </label>
+
+                            <input
+                                type="date"
+                                name="expiryDate"
+                                id="expiryDate"
+                                class="form-control"
+                            >
+                        </div>
+
+                        <!-- Notes -->
+                        <div class="col-12">
+                            <label for="notes" class="form-label">
+                                <i class="bi bi-card-text me-1"></i>
+                                Notes
+                                <span class="text-muted">(Optional)</span>
+                            </label>
+
+                            <textarea
+                                name="notes"
+                                id="notes"
+                                class="form-control"
+                                rows="3"
+                                placeholder="Add any additional document details..."
+                            ></textarea>
+                        </div>
+
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="document-form-actions">
+
+                        <a href="/dashboard" class="btn cancel-document-btn">
+                            <i class="bi bi-arrow-left me-1"></i>
+                            Cancel
+                        </a>
+
+                        <button type="submit" class="btn save-document-btn">
+                            <i class="bi bi-cloud-check me-1"></i>
+                            Save Document
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

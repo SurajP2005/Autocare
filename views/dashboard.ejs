@@ -1,0 +1,340 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoCare Dashboard</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+   
+</head>
+
+<body class="dashboard-page">
+
+    <%- include("partials/navbar") %>
+
+    <div class="container py-4">
+
+        <!-- Welcome Header -->
+        <div class="dashboard-header d-flex justify-content-between align-items-center gap-3">
+            <div>
+                <h2 class="mb-2">Welcome to AutoCare</h2>
+                <p class="mb-0">Your vehicle care, all in one place.</p>
+            </div>
+
+            <div class="header-icon">
+                <i class="bi bi-car-front-fill"></i>
+            </div>
+        </div>
+
+        <!-- Vehicle Selector -->
+        <div class="vehicle-selector">
+            <form action="/dashboard" method="GET">
+                <label for="vehicleId" class="form-label fw-semibold">
+                    <i class="bi bi-car-front me-1 text-primary"></i>
+                    Select Vehicle
+                </label>
+
+                <select name="vehicleId" id="vehicleId"
+                        class="form-select" onchange="this.form.submit()">
+
+                    <option value="all"
+                        <%= selectedVehicleId === "all" ? "selected" : "" %>>
+                        All Vehicles
+                    </option>
+
+                    <% vehicles.forEach(vehicle => { %>
+                        <option value="<%= vehicle._id %>"
+                            <%= selectedVehicleId === vehicle._id.toString()
+                                ? "selected" : "" %>>
+                            <%= vehicle.brand %> <%= vehicle.model %>
+                        </option>
+                    <% }) %>
+                </select>
+            </form>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="row g-3 mb-4">
+
+            <div class="col-6 col-md-4 summary-col">
+                <div class="card summary-card summary-blue">
+                    <div class="card-body">
+                        <div class="summary-icon">
+                            <i class="bi bi-car-front-fill"></i>
+                        </div>
+                        <p class="summary-label">Total Vehicles</p>
+                        <h4 class="summary-value"><%= totalVehicles %></h4>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-4 summary-col">
+                <div class="card summary-card summary-green">
+                    <div class="card-body">
+                        <div class="summary-icon">
+                            <i class="bi bi-fuel-pump-fill"></i>
+                        </div>
+                        <p class="summary-label">Fuel Spending</p>
+                        <h5 class="summary-value">₹<%= totalFuelExpense.toFixed(2) %></h5>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-4 summary-col">
+                <div class="card summary-card summary-purple">
+                    <div class="card-body">
+                        <div class="summary-icon">
+                            <i class="bi bi-wrench-adjustable"></i>
+                        </div>
+                        <p class="summary-label">Service Spending</p>
+                        <h5 class="summary-value">₹<%= totalServiceExpense.toFixed(2) %></h5>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-4 summary-col">
+                <div class="card summary-card summary-orange">
+                    <div class="card-body">
+                        <div class="summary-icon">
+                            <i class="bi bi-wallet-fill"></i>
+                        </div>
+                        <p class="summary-label">Other Expenses</p>
+                        <h5 class="summary-value">₹<%= totalOtherExpense.toFixed(2) %></h5>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-4 summary-col">
+                <div class="card summary-card summary-teal">
+                    <div class="card-body">
+                        <div class="summary-icon">
+                            <i class="bi bi-speedometer2"></i>
+                        </div>
+                        <p class="summary-label">Average Mileage</p>
+
+                        <% if (selectedVehicle && mileage != null) { %>
+                            <h5 class="summary-value"><%= mileage.toFixed(2) %> km/l</h5>
+                        <% } else if (selectedVehicle) { %>
+                            <h5 class="summary-value fs-6">Not available</h5>
+                            <small class="text-muted">Need two fuel records</small>
+                        <% } else { %>
+                            <h5 class="summary-value">—</h5>
+                            <small class="text-muted">Select a vehicle</small>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Vehicle Management -->
+        <h5 class="section-heading">
+            <i class="bi bi-grid-fill me-2 text-primary"></i>
+            Vehicle Management
+        </h5>
+
+        <div class="row g-3 mb-4">
+
+            <!-- My Vehicles -->
+            <div class="col-6 col-md-4">
+                <a href="/vehicles" class="quick-link">
+                    <div class="card quick-card quick-blue">
+                        <div class="card-body">
+                            <div class="quick-icon"><i class="bi bi-car-front-fill"></i></div>
+                            <h6>My Vehicles</h6>
+                            <p class="mb-0">View vehicle details</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Fuel -->
+            <div class="col-6 col-md-4">
+                <a href="<%= selectedVehicle
+                    ? '/fuel/history/' + selectedVehicle._id
+                    : '/fuel' %>" class="quick-link">
+                    <div class="card quick-card quick-green">
+                        <div class="card-body">
+                            <div class="quick-icon"><i class="bi bi-fuel-pump-fill"></i></div>
+                            <h6>Fuel</h6>
+                            <p class="mb-0">View fuel history</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Services -->
+            <div class="col-6 col-md-4">
+                <a href="<%= selectedVehicle
+                    ? '/services/history/' + selectedVehicle._id
+                    : '/services' %>" class="quick-link">
+                    <div class="card quick-card quick-purple">
+                        <div class="card-body">
+                            <div class="quick-icon"><i class="bi bi-wrench-adjustable"></i></div>
+                            <h6>Services</h6>
+                            <p class="mb-0">View service history</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Expenses -->
+            <div class="col-6 col-md-4">
+                <a href="<%= selectedVehicle
+                    ? '/expenses/history/' + selectedVehicle._id
+                    : '/expenses' %>" class="quick-link">
+                    <div class="card quick-card quick-orange">
+                        <div class="card-body">
+                            <div class="quick-icon"><i class="bi bi-wallet-fill"></i></div>
+                            <h6>Expenses</h6>
+                            <p class="mb-0">Track vehicle costs</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Maintenance -->
+            <div class="col-6 col-md-4">
+                <a href="<%= selectedVehicle
+                    ? '/maintenance/history/' + selectedVehicle._id
+                    : '/maintenance' %>" class="quick-link">
+                    <div class="card quick-card quick-teal">
+                        <div class="card-body">
+                            <div class="quick-icon"><i class="bi bi-calendar-check-fill"></i></div>
+                            <h6>Maintenance</h6>
+                            <p class="mb-0">View maintenance reminders</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Documents -->
+            <div class="col-6 col-md-4">
+                <a href="<%= selectedVehicle
+                    ? '/documents/history/' + selectedVehicle._id
+                    : '/documents' %>" class="quick-link">
+                    <div class="card quick-card quick-pink">
+                        <div class="card-body">
+                            <div class="quick-icon"><i class="bi bi-file-earmark-text-fill"></i></div>
+                            <h6>Documents</h6>
+                            <p class="mb-0">View vehicle documents</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+
+        <!-- Spending Breakdown -->
+        <div class="content-card">
+            <h5 class="mb-3">
+                <i class="bi bi-pie-chart-fill me-2 text-primary"></i>
+                Spending Breakdown
+            </h5>
+
+            <div style="max-width: 330px; margin: auto;">
+                <canvas id="spendingChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Maintenance Reminders -->
+        <div class="content-card">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h5 class="mb-0">
+                    <i class="bi bi-calendar-event-fill me-2 text-primary"></i>
+                    Maintenance Reminders
+                </h5>
+
+                <a href="<%= selectedVehicle
+                    ? '/maintenance/history/' + selectedVehicle._id
+                    : '/maintenance' %>"
+                   class="btn btn-sm btn-outline-primary">
+                    View All
+                </a>
+            </div>
+
+            <% if (maintenanceRecords.length === 0) { %>
+                <p class="text-muted mb-0 mt-3">
+                    No maintenance reminders found.
+                </p>
+            <% } else { %>
+
+                <% maintenanceRecords.slice(0, 3).forEach(record => { %>
+                    <div class="maintenance-item">
+                        <div class="d-flex justify-content-between align-items-start gap-2">
+                            <div>
+                                <strong><%= record.title %></strong>
+
+                                <div class="small text-muted mt-1">
+                                    <%= record.vehicle
+                                        ? record.vehicle.brand + " " + record.vehicle.model
+                                        : "Vehicle" %>
+                                    ·
+                                    <%= record.dueDate
+                                        ? new Date(record.dueDate).toLocaleDateString("en-IN")
+                                        : "No due date" %>
+                                </div>
+                            </div>
+
+                            <span class="badge <%= record.status === 'Completed'
+                                ? 'bg-success'
+                                : 'bg-warning text-dark' %>">
+                                <%= record.status || "Pending" %>
+                            </span>
+                        </div>
+                    </div>
+                <% }) %>
+
+            <% } %>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        new Chart(document.getElementById("spendingChart"), {
+            type: "doughnut",
+
+            data: {
+                labels: ["Fuel", "Service", "Other Expenses"],
+
+                datasets: [{
+                    data: [
+                        <%= totalFuelExpense %>,
+                        <%= totalServiceExpense %>,
+                        <%= totalOtherExpense %>
+                    ],
+
+                    backgroundColor: ["#22a06b", "#8b5cf6", "#f59e0b"],
+                    borderColor: "#ffffff",
+                    borderWidth: 4,
+                    hoverOffset: 7
+                }]
+            },
+
+            options: {
+                responsive: true,
+                cutout: "65%",
+
+                plugins: {
+                    legend: {
+                        position: "bottom",
+                        labels: {
+                            padding: 20,
+                            usePointStyle: true
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>

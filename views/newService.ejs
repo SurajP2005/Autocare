@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Service - AutoCare</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body class="service-form-page">
+
+    <%- include("partials/navbar") %>
+
+    <div class="container py-5">
+
+        <div class="service-form-wrapper mx-auto">
+
+            <!-- Header -->
+            <div class="service-form-header">
+                <div class="service-icon">
+                    <i class="bi bi-tools"></i>
+                </div>
+
+                <h1>Add Service Record</h1>
+
+                <p>
+                    Keep track of vehicle servicing, maintenance costs, and repair details.
+                </p>
+            </div>
+
+            <!-- Form Card -->
+            <div class="service-form-card">
+
+                <form action="/services" method="POST">
+
+                    <div class="row g-4">
+
+                        <!-- Vehicle -->
+                        <div class="col-md-6">
+                            <label for="vehicleId" class="form-label">
+                                <i class="bi bi-car-front me-1"></i>
+                                Vehicle
+                            </label>
+
+                            <select
+                                name="vehicleId"
+                                id="vehicleId"
+                                class="form-select"
+                                required
+                            >
+                                <option value="">Select Vehicle</option>
+
+                                <% vehicles.forEach(vehicle => { %>
+                                    <option value="<%= vehicle._id %>">
+                                        <%= vehicle.brand %> <%= vehicle.model %>
+                                    </option>
+                                <% }) %>
+                            </select>
+                        </div>
+
+                        <!-- Date -->
+                        <div class="col-md-6">
+                            <label for="date" class="form-label">
+                                <i class="bi bi-calendar-event me-1"></i>
+                                Service Date
+                            </label>
+
+                            <input
+                                type="date"
+                                name="date"
+                                id="date"
+                                class="form-control"
+                                required
+                            >
+                        </div>
+
+                        <!-- Odometer -->
+                        <div class="col-md-6">
+                            <label for="odometer" class="form-label">
+                                <i class="bi bi-speedometer2 me-1"></i>
+                                Odometer (km)
+                            </label>
+
+                            <input
+                                type="number"
+                                name="odometer"
+                                id="odometer"
+                                class="form-control"
+                                placeholder="e.g. 45000"
+                                min="0"
+                                required
+                            >
+                        </div>
+
+                        <!-- Service Type -->
+                        <div class="col-md-6">
+                            <label for="serviceType" class="form-label">
+                                <i class="bi bi-wrench-adjustable me-1"></i>
+                                Service Type
+                            </label>
+
+                            <input
+                                type="text"
+                                name="serviceType"
+                                id="serviceType"
+                                class="form-control"
+                                placeholder="e.g. Oil Change"
+                                required
+                            >
+                        </div>
+
+                        <!-- Garage -->
+                        <div class="col-md-6">
+                            <label for="garage" class="form-label">
+                                <i class="bi bi-geo-alt me-1"></i>
+                                Garage / Service Center
+                            </label>
+
+                            <input
+                                type="text"
+                                name="garage"
+                                id="garage"
+                                class="form-control"
+                                placeholder="Enter garage name"
+                                required
+                            >
+                        </div>
+
+                        <!-- Cost -->
+                        <div class="col-md-6">
+                            <label for="cost" class="form-label">
+                                <i class="bi bi-currency-rupee me-1"></i>
+                                Service Cost (₹)
+                            </label>
+
+                            <input
+                                type="number"
+                                name="cost"
+                                id="cost"
+                                class="form-control"
+                                placeholder="e.g. 2500"
+                                min="0"
+                                step="0.01"
+                                required
+                            >
+                        </div>
+
+                        <!-- Parts -->
+                        <div class="col-md-6">
+                            <label for="parts" class="form-label">
+                                <i class="bi bi-gear me-1"></i>
+                                Parts Replaced
+                                <span class="text-muted">(Optional)</span>
+                            </label>
+
+                            <input
+                                type="text"
+                                name="parts"
+                                id="parts"
+                                class="form-control"
+                                placeholder="e.g. Oil filter, brake pads"
+                            >
+                        </div>
+
+                        <!-- Invoice -->
+                        <div class="col-md-6">
+                            <label for="invoice" class="form-label">
+                                <i class="bi bi-receipt me-1"></i>
+                                Invoice Number
+                            </label>
+
+                            <input
+                                type="text"
+                                name="invoice"
+                                id="invoice"
+                                class="form-control"
+                                placeholder="Enter invoice number"
+                            >
+                        </div>
+
+                        <!-- Notes -->
+                        <div class="col-12">
+                            <label for="notes" class="form-label">
+                                <i class="bi bi-card-text me-1"></i>
+                                Service Notes
+                            </label>
+
+                            <textarea
+                                name="notes"
+                                id="notes"
+                                class="form-control"
+                                rows="3"
+                                placeholder="Describe the work performed..."
+                            ></textarea>
+                        </div>
+
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="service-form-actions">
+
+                        <a href="/services" class="btn cancel-service-btn">
+                            <i class="bi bi-arrow-left me-1"></i>
+                            Cancel
+                        </a>
+
+                        <button type="submit" class="btn submit-service-btn">
+                            <i class="bi bi-check-circle me-1"></i>
+                            Save Service Record
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

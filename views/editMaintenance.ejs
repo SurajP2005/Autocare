@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Maintenance | AutoCare</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <h2>Edit Maintenance Reminder</h2>
+
+    <form action="/maintenance/<%= maintenance._id %>/edit" method="POST">
+
+        <div class="mb-3">
+            <label class="form-label">Title</label>
+            <input type="text" name="title" class="form-control"
+                   value="<%= maintenance.title %>" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Maintenance Type</label>
+            <select name="maintenanceType" class="form-select" required>
+                <% ["Periodic Service", "Engine Oil", "Tyre Check",
+                    "Brake Inspection", "Battery Check", "Other"].forEach(type => { %>
+                    <option value="<%= type %>"
+                        <%= maintenance.maintenanceType === type ? "selected" : "" %>>
+                        <%= type %>
+                    </option>
+                <% }) %>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea name="description" class="form-control"><%= maintenance.description || "" %></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Due Date</label>
+            <input type="date" name="dueDate" class="form-control"
+                   value="<%= maintenance.dueDate ? new Date(maintenance.dueDate).toISOString().slice(0, 10) : '' %>">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Due Odometer (km)</label>
+            <input type="number" name="dueOdometer" class="form-control"
+                   min="0"
+                   value="<%= maintenance.dueOdometer ?? '' %>">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <a href="/maintenance/history/<%= maintenance.vehicle %>"
+           class="btn btn-secondary">Cancel</a>
+
+    </form>
+</div>
+
+</body>
+</html>

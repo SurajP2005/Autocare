@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoCare | Smart Vehicle Management</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #10243e;
+            background: #f5f9ff;
+        }
+
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+
+        .navbar-brand {
+            font-size: 27px;
+            font-weight: bold;
+            color: #10243e;
+        }
+
+        .brand-blue {
+            color: #0878f9;
+        }
+
+        /* NEW HERO PHOTO */
+        .hero {
+            min-height: 540px;
+            display: flex;
+            align-items: center;
+            color: white;
+
+            background-image:
+                linear-gradient(
+                    90deg,
+                    rgba(5, 20, 38, 0.75),
+                    rgba(5, 20, 38, 0.15)
+                ),
+            url("/images/background%20pic.png");
+
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            font-weight: 800;
+        }
+
+        .hero p {
+            font-size: 18px;
+            line-height: 1.8;
+            max-width: 600px;
+        }
+
+        .btn-primary {
+            background: #0878f9;
+            border-color: #0878f9;
+        }
+
+        .section-title {
+            font-weight: 800;
+        }
+
+        .feature-card {
+            background: white;
+            border: 1px solid #e4ecf7;
+            border-radius: 15px;
+            padding: 25px;
+            height: 100%;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(16,36,62,0.08);
+        }
+
+        .feature-icon {
+            width: 55px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 13px;
+            background: #e5f1ff;
+            color: #0878f9;
+            font-size: 25px;
+            margin-bottom: 18px;
+        }
+
+        .cta {
+            background: #e3f0ff;
+            border-radius: 18px;
+        }
+
+        footer {
+            background: #10243e;
+            color: #dce7f5;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container">
+        <a class="navbar-brand" href="/autocare">
+            <i class="bi bi-car-front-fill"></i>
+            Auto<span class="brand-blue">Care</span>
+        </a>
+
+        <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#mainNavbar"
+                aria-controls="mainNavbar"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="mainNavbar">
+<ul class="navbar-nav ms-auto align-items-lg-center gap-lg-3">
+
+    <li class="nav-item">
+        <a class="nav-link active" href="/autocare">Home</a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="#features">Features</a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="#about">About</a>
+    </li>
+
+    <% if (typeof currentUser !== "undefined" && currentUser) { %>
+
+        <li class="nav-item">
+            <a class="nav-link" href="/dashboard">Dashboard</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="btn btn-outline-secondary px-4" href="/logout">
+                Logout
+            </a>
+        </li>
+
+    <% } else { %>
+
+        <li class="nav-item">
+            <a class="btn btn-outline-primary px-4" href="/login">Login</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="btn btn-primary px-4" href="/register">Register</a>
+        </li>
+
+    <% } %>
+
+</ul>
+        </div>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-lg-7">
+                <p class="text-uppercase fw-semibold mb-3">
+                    Your vehicle. Your care. One place.
+                </p>
+
+                <h1>
+                    Take Better Care of Your
+                    <span class="text-primary">Car.</span>
+                </h1>
+
+                <p class="mt-4">
+                    Manage your vehicles, track fuel expenses, schedule
+                    maintenance and keep important documents together —
+                    all in one place.
+                </p>
+
+                <div class="d-flex flex-wrap gap-3 mt-4">
+                    <a href="/register" class="btn btn-primary btn-lg px-4">
+                        Get Started
+                        <i class="bi bi-arrow-right ms-2"></i>
+                    </a>
+
+                    <a href="#features" class="btn btn-outline-light btn-lg px-4">
+                        Explore Features
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FEATURES -->
+<section class="container py-5" id="features">
+    <div class="text-center mb-5">
+        <h2 class="section-title">Everything Your Car Needs</h2>
+        <p class="text-secondary mt-2">
+            A smarter way to manage vehicle ownership and maintenance.
+        </p>
+    </div>
+
+    <div class="row g-4">
+
+        <div class="col-md-6 col-lg-3">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="bi bi-speedometer2"></i></div>
+                <h5>Dashboard</h5>
+                <p class="text-secondary mb-0">
+                    View your vehicles, expenses, charts and maintenance reminders.
+                </p>
+                <a href="/dashboard" class="text-primary text-decoration-none mt-3 d-inline-block">
+                    Open Dashboard →
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="bi bi-car-front-fill"></i></div>
+                <h5>My Vehicles</h5>
+                <p class="text-secondary mb-0">
+                    Add and manage your vehicles and their important details.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="bi bi-fuel-pump-fill"></i></div>
+                <h5>Fuel Tracking</h5>
+                <p class="text-secondary mb-0">
+                    Record refuelling, track fuel spending and monitor mileage.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="bi bi-tools"></i></div>
+                <h5>Service History</h5>
+                <p class="text-secondary mb-0">
+                    Keep records of servicing, repairs and costs.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="bi bi-wallet2"></i></div>
+                <h5>Expenses</h5>
+                <p class="text-secondary mb-0">
+                    Track other vehicle-related expenses in one place.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="bi bi-bell-fill"></i></div>
+                <h5>Maintenance</h5>
+                <p class="text-secondary mb-0">
+                    Organise maintenance tasks and track their status.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="bi bi-file-earmark-text-fill"></i></div>
+                <h5>Documents</h5>
+                <p class="text-secondary mb-0">
+                    Store and access important vehicle documents.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="bi bi-robot"></i></div>
+                <h5>AI Assistant</h5>
+                <p class="text-secondary mb-0">
+                    Get help with vehicle-related questions using AI.
+                </p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- ABOUT -->
+<section class="container pb-5" id="about">
+    <div class="cta p-4 p-md-5 text-center">
+        <h2 class="section-title">Your Vehicle, Better Managed.</h2>
+        <p class="text-secondary mt-3">
+            Keep your vehicle information, maintenance records and expenses
+            organised through one convenient platform.
+        </p>
+        <a href="/register" class="btn btn-primary btn-lg mt-2 px-4">
+            Create Your Account
+        </a>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="py-4">
+    <div class="container text-center">
+        <h5>AutoCare</h5>
+        <p class="mb-2">Smarter vehicle ownership starts here.</p>
+        <small>© <%= new Date().getFullYear() %> AutoCare. All rights reserved.</small>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
